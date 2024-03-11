@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<ICodeTOTP, CodeTOTP>();
+builder.Services.AddScoped<ICodeGoogleTOTP, CodeGoogleTOTP>();
 
 
 builder.Services.AddControllers();

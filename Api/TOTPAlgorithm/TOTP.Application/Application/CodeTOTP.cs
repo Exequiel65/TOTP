@@ -17,7 +17,9 @@ namespace TOTP.Application.Application
         public string CompartKey2FA(string email)
         {
             var secretServer = _configuration.GetSection("Config:Secret2FAApp").Value;
-            return $"{secretServer}:{email}";
+
+            var uri = new OtpUri(OtpType.Totp, $"B6UYROA", "test2@gmail.com", "Test to2",digits:6, period: 30);
+            return uri.ToString();
         }
 
         public string GenerateCode(string email)
@@ -47,12 +49,25 @@ namespace TOTP.Application.Application
             var secretServer = _configuration.GetSection("Config:Secret2FAApp").Value;
 
             // Convierte las claves secretas en bytes
-            byte[] serverSecretKey = Encoding.UTF8.GetBytes($"{secretServer}:{email}");
+            //byte[] serverSecretKey = Base32Encoding.ToBytes($"{secretServer}{email}");
+            byte[] serverSecretKey = Base32Encoding.ToBytes($"B6UYROA");
 
             // Crea un generador de código TOTP utilizando las claves secretas
-            var totpUser = new Totp(serverSecretKey, 30, OtpHashMode.Sha256, 6, new TimeCorrection(DateTime.UtcNow));
+            //var totpUser = new Totp(serverSecretKey, 30, OtpHashMode.Sha256, 6, new TimeCorrection(DateUser("Argentina Standard Time")));
+            // Se da una correccion de 10s 
+            var totpUser = new Totp(serverSecretKey,30,totpSize:6, timeCorrection: new TimeCorrection(DateTime.UtcNow.AddSeconds(10)));
 
             return totpUser;
+        }
+
+        private DateTime DateUser(string zoneTime)
+        {
+            TimeZoneInfo TimeZone = TimeZoneInfo.FindSystemTimeZoneById(zoneTime);
+
+            DateTime horaUTC = DateTime.UtcNow;
+            DateTime Date = TimeZoneInfo.ConvertTimeFromUtc(horaUTC, TimeZone);
+
+            return Date;
         }
     }
 }

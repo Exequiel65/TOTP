@@ -9,10 +9,12 @@ namespace WebApi.Controllers
     public class TOTPController : ControllerBase
     {
         private readonly ICodeTOTP _codeTOTP;
+        private readonly ICodeGoogleTOTP _codeGoogleTOTP;
 
-        public TOTPController(ICodeTOTP codeTOTP)
+        public TOTPController(ICodeGoogleTOTP codeGoogleTOTP, ICodeTOTP codeTOTP)
         {
             _codeTOTP = codeTOTP;
+            _codeGoogleTOTP = codeGoogleTOTP;
         }
 
         [HttpPost("GenerateToken")]
@@ -41,6 +43,20 @@ namespace WebApi.Controllers
         public IActionResult GetKey([FromQuery] string email)
         {
             var result = _codeTOTP.CompartKey2FA(email);
+            return Ok(result);
+        }
+
+        [HttpGet("get-otp-auth-google")]
+        public IActionResult GenerateUrl([FromQuery] string aditional)
+        {
+            var result = _codeGoogleTOTP.GenerateUrl();
+            return Ok(result);
+        }
+        
+        [HttpGet("validate-code-google")]
+        public IActionResult ValidateCodeGoogle([FromQuery] string code)
+        {
+            var result = _codeGoogleTOTP.Validate(code);
             return Ok(result);
         }
     }

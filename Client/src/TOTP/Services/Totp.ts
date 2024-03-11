@@ -12,7 +12,18 @@ async function GetCode(email: string) {
 
 async function ValidateCode(data: any) {
     try {
-        var response = await axios.post(`/api/TOTP/ValidateToken`, { Token : data.Token, Email: data.Email });
+        var response = await axios.post(`/api/TOTP/ValidateToken`, { Token: data.Token, Email: data.Email });
+        return response;
+    } catch (error) {
+        console.log(error)
+        return null;
+    }
+}
+
+async function GenerateKey(email: string) {
+    try {
+        var response = await axios.get(`/api/TOTP/get-key-2FA?email=${email}`);
+        // var response = await axios.get(`/api/TOTP/get-otp-auth-google?aditional=pr=${email}`);
         return response;
     } catch (error) {
         console.log(error)
@@ -21,8 +32,8 @@ async function ValidateCode(data: any) {
 }
 
 
-
 export {
     GetCode,
-    ValidateCode
+    ValidateCode,
+    GenerateKey
 }
