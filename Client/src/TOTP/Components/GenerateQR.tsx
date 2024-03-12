@@ -3,13 +3,14 @@ import { useState } from 'react';
 import React from 'react';
 import { GenerateKey, GetKey } from '../Services/Totp';
 import QRCode from 'react-qr-code';
-import { useCodeHook } from '../hooks/CodeHook';
+import useTOTP from '../hooks/CodeHook';
+
 
 
 function GenerateQR() {
     const [Email, setEmail] = useState("")
     const [Key, setKey] = useState();
-    const { code, setSecret } = useCodeHook();
+    const { setSecret, token, timeRemaining } = useTOTP();
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value)
     }
@@ -46,8 +47,12 @@ function GenerateQR() {
                     />
                 )}
 
-                {code && (
-                    <p>{code}</p>
+                {token && (
+                    <>
+                        <p>{token}</p>
+
+                        <p>{timeRemaining}</p>
+                    </>
                 )}
 
                 {/* {Key && <img style={{ height: "auto", maxWidth: "250", width: "100%" }} src={Key} />} */}
