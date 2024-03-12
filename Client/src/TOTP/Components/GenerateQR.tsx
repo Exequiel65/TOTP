@@ -43,10 +43,6 @@ function GenerateQR() {
                     />
                 )}
                 {Key && (<p>{secret}</p>) }
-
-
-                {/* {Key && <img style={{ height: "auto", maxWidth: "250", width: "100%" }} src={Key} />} */}
-
             </Box>
         </Box>
     )

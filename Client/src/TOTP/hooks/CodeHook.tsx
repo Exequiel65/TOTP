@@ -24,7 +24,7 @@ function useTOTP() {
             // Limpia el intervalo cuando el componente se desmonta 
             return () => clearInterval(interval);
         } 
-    }, [secret, timeRemaining]);
+    }, [secret]);
 
     // Función para calcular el tiempo restante antes de que cambie el token
     function calculateTimeRemaining() {

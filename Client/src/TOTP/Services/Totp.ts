@@ -42,7 +42,6 @@ async function GetKey() {
     }
 }
 
-
 export {
     GetCode,
     ValidateCode,

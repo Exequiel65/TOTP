@@ -4,6 +4,7 @@ import GetToken from './TOTP/Components/GetToken';
 import ValidateToken from './TOTP/Components/ValidateToken';
 import React, { useState } from 'react';
 import GenerateQR from './TOTP/Components/GenerateQR';
+import TOTPGenerator from './TOTP/Components/TOTPGenerator';
 
 
 interface TabPanelProps {
@@ -45,6 +46,7 @@ function App() {
   const [value, setValue] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    console.log(event);
     setValue(newValue);
   };
 
@@ -66,6 +68,7 @@ function App() {
             <Tab label="Generar Token API" {...a11yProps(0)} sx={{ color: 'white' }} />
             <Tab label="Valdidar Token" {...a11yProps(1)} sx={{ color: 'white' }} />
             <Tab label="Agregar a App" {...a11yProps(2)} sx={{ color: 'white' }} />
+            <Tab label="Generar Token App" {...a11yProps(2)} sx={{ color: 'white' }} />
 
           </Tabs>
           <Box sx={{width:'100%'}}>
@@ -77,6 +80,9 @@ function App() {
             </TabPanel>
             <TabPanel value={value} index={2}>
               <GenerateQR />
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+              <TOTPGenerator />
             </TabPanel>
           </Box>
         </Box>
