@@ -1,4 +1,4 @@
-import { Box, TextField } from '@mui/material'
+import { Box, Button, TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { ValidateCode } from '../Services/Totp'
 
@@ -38,7 +38,7 @@ function ValidateToken() {
                 <br />
                 <TextField onChange={handleChangeToken} style={{ backgroundColor: 'white', borderRadius: 7 }} id="email" label="Token" variant="filled" placeholder='example@example.com'></TextField>
                 <p>Resutlado: {IsValid} </p>
-                <button onClick={handleClick}>Validar</button>
+                <Button onClick={handleClick}>Validar</Button>
             </Box>
         </Box>
     )

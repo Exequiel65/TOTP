@@ -22,6 +22,12 @@ namespace TOTP.Application.Application
             return uri.ToString();
         }
 
+        public string GetKey()
+        {
+            var secretServer = _configuration.GetSection("Config:Secret2FAApp").Value;
+            return secretServer;
+        }
+
         public string GenerateCode(string email)
         {
             var totp = GeneratorTotp(email);
@@ -50,12 +56,12 @@ namespace TOTP.Application.Application
 
             // Convierte las claves secretas en bytes
             //byte[] serverSecretKey = Base32Encoding.ToBytes($"{secretServer}{email}");
-            byte[] serverSecretKey = Base32Encoding.ToBytes($"B6UYROA");
+            byte[] serverSecretKey = Base32Encoding.ToBytes(secretServer);
 
             // Crea un generador de código TOTP utilizando las claves secretas
             //var totpUser = new Totp(serverSecretKey, 30, OtpHashMode.Sha256, 6, new TimeCorrection(DateUser("Argentina Standard Time")));
             // Se da una correccion de 10s 
-            var totpUser = new Totp(serverSecretKey,30,totpSize:6, timeCorrection: new TimeCorrection(DateTime.UtcNow.AddSeconds(10)));
+            var totpUser = new Totp(serverSecretKey, 30,totpSize:6, timeCorrection: new TimeCorrection(DateTime.UtcNow.AddSeconds(10)));
 
             return totpUser;
         }

@@ -1,4 +1,4 @@
-import { Box, TextField } from '@mui/material'
+import { Box, Button, TextField } from '@mui/material'
 import { useEffect, useState } from 'react';
 import { GetCode } from '../Services/Totp';
 
@@ -25,7 +25,7 @@ function GetToken() {
             <Box>
                 <TextField onChange={handleChange} style={{ backgroundColor: 'white', borderRadius: 7 }} id="email" label="Email" variant="filled" placeholder='example@example.com'></TextField>
                 <Box>
-                    <button onClick={handleClick}>Obtener</button>
+                    <Button onClick={handleClick}>Obtener</Button>
                 </Box>
                 <p>Token: {Token}</p>
             </Box>

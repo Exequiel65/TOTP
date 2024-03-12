@@ -31,9 +31,21 @@ async function GenerateKey(email: string) {
     }
 }
 
+async function GetKey() {
+    try {
+        var response = await axios.get(`/api/TOTP/get-key`);
+        // var response = await axios.get(`/api/TOTP/get-otp-auth-google?aditional=pr=${email}`);
+        return response;
+    } catch (error) {
+        console.log(error)
+        return null;
+    }
+}
+
 
 export {
     GetCode,
     ValidateCode,
-    GenerateKey
+    GenerateKey,
+    GetKey
 }

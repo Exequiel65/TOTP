@@ -45,6 +45,12 @@ namespace WebApi.Controllers
             var result = _codeTOTP.CompartKey2FA(email);
             return Ok(result);
         }
+        [HttpGet("get-key")]
+        public IActionResult GetKey()
+        {
+            var result = _codeTOTP.GetKey();
+            return Ok(result);
+        }
 
         [HttpGet("get-otp-auth-google")]
         public IActionResult GenerateUrl([FromQuery] string aditional)
