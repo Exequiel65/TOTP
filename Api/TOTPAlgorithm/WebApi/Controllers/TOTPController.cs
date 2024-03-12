@@ -17,11 +17,10 @@ namespace WebApi.Controllers
             _codeGoogleTOTP = codeGoogleTOTP;
         }
 
-        [HttpPost("GenerateToken")]
-        public IActionResult GenerateToken([FromBody] TOTPGenerateWriteDto model)
+        [HttpGet("GenerateToken")]
+        public IActionResult GenerateToken()
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            var result = _codeTOTP.GenerateCode(model.Email);
+            var result = _codeTOTP.GenerateCode();
 
             if (string.IsNullOrEmpty(result)) return BadRequest("Token Error");
 
@@ -29,10 +28,10 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("ValidateToken")]
-        public IActionResult GenerateToken([FromBody] TOTPValidateDto model)
+        public IActionResult ValidateToken([FromBody] TOTPValidateDto model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var result = _codeTOTP.ValidateCode(model.Token, model.Email);
+            var result = _codeTOTP.ValidateCode(model.Token);
 
             if (!result) return BadRequest("Token Error");
 
@@ -40,9 +39,9 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("get-key-2FA")]
-        public IActionResult GetKey([FromQuery] string email)
+        public IActionResult GetKey2FA()
         {
-            var result = _codeTOTP.CompartKey2FA(email);
+            var result = _codeTOTP.CompartKey2FA();
             return Ok(result);
         }
         [HttpGet("get-key")]

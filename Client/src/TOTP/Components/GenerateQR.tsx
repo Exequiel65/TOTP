@@ -1,41 +1,37 @@
-import { Box, Button, TextField } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import { useState } from 'react';
-import React from 'react';
-import { GenerateKey, GetKey } from '../Services/Totp';
+import { GenerateKey} from '../Services/Totp';
 import QRCode from 'react-qr-code';
-import useTOTP from '../hooks/CodeHook';
 
 
 
 function GenerateQR() {
-    const [Email, setEmail] = useState("")
     const [Key, setKey] = useState();
-    const { setSecret, token, timeRemaining } = useTOTP();
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(event.target.value)
-    }
-
+    const [secret, setSecretKey] = useState();
     const handleClick = async () => {
-        var response = await GenerateKey(Email);
+        var response = await GenerateKey();
         if (response?.data != null) {
-            setKey(response.data)
+            setKey(response.data.url)
+            setSecretKey(response.data.secret)
             console.log(response.data)
         }
     }
 
-    const handleClick_secret = async () => {
-        var response = await GetKey();
-        if (response?.data != null) {
-            setSecret(response.data)
-        }
-    }
+    // const handleClick_secret = async () => {
+    //     var response = await GetKey();
+    //     if (response?.data != null) {
+    //         setSecret(response.data)
+    //     }
+    // }
     return (
         <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'} gap={2}>
             <Box display={'flex'} flexDirection={'column'} alignItems={'center'} justifyContent={'center'}>
-                <p>Agrega un email al cual se le va a asociar el Token</p>
-                <TextField onChange={handleChange} style={{ backgroundColor: 'white', borderRadius: 7 }} id="email" label="Email" variant="filled" placeholder='example@example.com' />
+                <Box style={{lineHeight:'1'}}>
+                    <p>El siguiente boton genera un codigo Qr para agregar la 2FA a tu aplicación Authenticator</p>
+                    <p>Para este caso se recomienda usar Microsoft Authenticator o Google Authenticator</p>
+                </Box>
                 <Button onClick={handleClick}>Generar QR</Button>
-                <Button onClick={handleClick_secret}>Generar CODE</Button>
+                {/* <Button onClick={handleClick_secret}>Generar CODE</Button> */}
             </Box>
             <Box>
                 {Key && (
@@ -46,14 +42,8 @@ function GenerateQR() {
                         viewBox={`0 0 256 256`}
                     />
                 )}
+                {Key && (<p>{secret}</p>) }
 
-                {token && (
-                    <>
-                        <p>{token}</p>
-
-                        <p>{timeRemaining}</p>
-                    </>
-                )}
 
                 {/* {Key && <img style={{ height: "auto", maxWidth: "250", width: "100%" }} src={Key} />} */}
 

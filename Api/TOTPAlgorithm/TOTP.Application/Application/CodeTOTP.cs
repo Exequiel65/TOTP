@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using OtpNet;
-using System.Text;
 using TOTP.Application.Interface;
+using TOTP.Dtos;
 
 namespace TOTP.Application.Application
 {
@@ -14,12 +14,16 @@ namespace TOTP.Application.Application
             _configuration = configuration;
         }
 
-        public string CompartKey2FA(string email)
+        public Compart2FAResponse CompartKey2FA()
         {
             var secretServer = _configuration.GetSection("Config:Secret2FAApp").Value;
 
-            var uri = new OtpUri(OtpType.Totp, $"B6UYROA", "test2@gmail.com", "Test to2",digits:6, period: 30);
-            return uri.ToString();
+            var uri = new OtpUri(OtpType.Totp, secretServer, "test2@gmail.com", "Test to2",digits:6, period: 30);
+            
+            return new Compart2FAResponse{
+                Url = uri.ToString(),
+                secret = secretServer
+            };
         }
 
         public string GetKey()
@@ -28,9 +32,9 @@ namespace TOTP.Application.Application
             return secretServer;
         }
 
-        public string GenerateCode(string email)
+        public string GenerateCode()
         {
-            var totp = GeneratorTotp(email);
+            var totp = GeneratorTotp();
 
             // Genera el código TOTP basado en la hora actual (puede personalizar esto según tus necesidades)
             var token = totp.ComputeTotp();
@@ -38,9 +42,9 @@ namespace TOTP.Application.Application
             return token;
         }
 
-        public bool ValidateCode(string code, string email)
+        public bool ValidateCode(string code)
         {
-            var totp = GeneratorTotp(email);
+            var totp = GeneratorTotp();
 
 
             // Validar que el token proporcionado por el usuario coincide con el generado por el servidor
@@ -49,7 +53,7 @@ namespace TOTP.Application.Application
             return isValid;
         }
 
-        private Totp GeneratorTotp(string email)
+        private Totp GeneratorTotp()
         {
             // La clave secreta del servidor (clave privada)
             var secretServer = _configuration.GetSection("Config:Secret2FAApp").Value;

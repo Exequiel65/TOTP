@@ -5,16 +5,10 @@ import { ValidateCode } from '../Services/Totp'
 function ValidateToken() {
 
     const [ValidateToken, setValidateToken] = useState({
-        Token: "",
-        Email: ""
+        Token: ""
     })
 
     const [IsValid, setIsValid] = useState("")
-    const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-        var data = ValidateToken;
-        data.Email = event.target.value;
-        setValidateToken(data);
-    }
 
     const handleChangeToken = (event: React.ChangeEvent<HTMLInputElement>) => {
         var data = ValidateToken;
@@ -32,11 +26,11 @@ function ValidateToken() {
     }, [IsValid])
     return (
         <Box>
-            <h6>Verificar Token</h6>
+            <h5>Verificar Token</h5>
             <Box>
-                <TextField onChange={handleChangeEmail} style={{ backgroundColor: 'white', borderRadius: 7 }} id="email" label="Email" variant="filled" placeholder='example@example.com'></TextField>
+                <p>Ingrese el token a validar, puede haber unos segundos de diferencia al validar</p>
                 <br />
-                <TextField onChange={handleChangeToken} style={{ backgroundColor: 'white', borderRadius: 7 }} id="email" label="Token" variant="filled" placeholder='example@example.com'></TextField>
+                <TextField onChange={handleChangeToken} style={{ backgroundColor: 'white', borderRadius: 7 }} id="Token" label="Token" variant="filled" placeholder='example@example.com'></TextField>
                 <p>Resutlado: {IsValid} </p>
                 <Button onClick={handleClick}>Validar</Button>
             </Box>

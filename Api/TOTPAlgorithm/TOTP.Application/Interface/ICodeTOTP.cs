@@ -1,10 +1,12 @@
-﻿namespace TOTP.Application.Interface
+﻿using TOTP.Dtos;
+
+namespace TOTP.Application.Interface
 {
     public interface ICodeTOTP
     {
-        string GenerateCode(string email);
-        bool ValidateCode(string code, string email);
-        string CompartKey2FA(string email);
+        string GenerateCode();
+        bool ValidateCode(string code);
+        Compart2FAResponse CompartKey2FA();
         string GetKey();
     }
 }

@@ -1,16 +1,12 @@
-import { Box, Button, TextField } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import { useEffect, useState } from 'react';
 import { GetCode } from '../Services/Totp';
 
 function GetToken() {
-    const [email, setemail] = useState<string>("")
     const [Token, setToken] = useState<string>("")
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setemail(event.target.value);
-    }
 
     const handleClick = async () => {
-        var result = await GetCode(email);
+        var result = await GetCode();
         if (result != null) {
             setToken(result.data)
         }
@@ -20,12 +16,11 @@ function GetToken() {
     }, [Token])
     
     return (
-        <Box sx={{ width: '70%' }}>
-            <h5>Obtener Token desde el servidor</h5>
+        <Box sx={{ width: '100%' }}>
+            <h5>Pantalla para obtener el token TOTP desde el servidor este generara <br></br>un codigo con la clave secreta del servidor</h5>
             <Box>
-                <TextField onChange={handleChange} style={{ backgroundColor: 'white', borderRadius: 7 }} id="email" label="Email" variant="filled" placeholder='example@example.com'></TextField>
                 <Box>
-                    <Button onClick={handleClick}>Obtener</Button>
+                    <Button onClick={handleClick}>Obtener Token</Button>
                 </Box>
                 <p>Token: {Token}</p>
             </Box>
